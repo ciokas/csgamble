@@ -3,32 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSGamble – CS2 Casino Demo</title>
+<title>CSGamble – CS2 Casino SPA Demo</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
 <style>
 /* ===== Global ===== */
 * { box-sizing:border-box; margin:0; padding:0; }
-body { font-family: 'Roboto Mono', monospace; background: radial-gradient(circle at top, #0a0d1a, #0b0f19); color:#e5e7eb; overflow-x:hidden; }
+body { font-family:'Roboto Mono', monospace; background: radial-gradient(circle at top, #0a0d1a, #0b0f19); color:#e5e7eb; overflow-x:hidden; }
 header { display:flex; justify-content:space-between; align-items:center; padding:16px 32px; background:#111827; border-bottom:2px solid #22c55e; }
-.logo { font-family: 'Orbitron', sans-serif; font-size:28px; font-weight:700; color:#22c55e; text-shadow: 0 0 10px #22c55e; }
+.logo { font-family:'Orbitron', sans-serif; font-size:28px; font-weight:700; color:#22c55e; text-shadow:0 0 10px #22c55e; }
 nav a { margin-left:20px; color:#e5e7eb; text-decoration:none; font-weight:700; font-size:14px; transition:0.3s; }
 nav a:hover { color:#22c55e; text-shadow:0 0 8px #22c55e; }
 
 /* ===== Hero ===== */
 .hero { text-align:center; padding:60px 32px; }
-.hero h1 { font-family: 'Orbitron', sans-serif; font-size:42px; margin-bottom:16px; color:#22c55e; text-shadow:0 0 15px #22c55e; }
+.hero h1 { font-family:'Orbitron', sans-serif; font-size:42px; margin-bottom:16px; color:#22c55e; text-shadow:0 0 15px #22c55e; }
 .hero p { color:#9ca3af; margin-bottom:32px; }
-
-/* ===== Buttons ===== */
 .buttons { margin-bottom:40px; }
 .buttons button { background: linear-gradient(90deg,#22c55e,#10b981); color:#022c22; font-weight:bold; padding:14px 26px; margin:6px; border:none; border-radius:10px; cursor:pointer; font-size:14px; text-shadow:0 0 4px #fff; transition:0.3s; }
 .buttons button:hover { opacity:0.9; box-shadow:0 0 15px #22c55e; }
 
-/* ===== Games ===== */
-.games { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; padding:0 32px 60px 32px; }
-.card { background:#111827; border:2px solid #22c55e; border-radius:14px; padding:20px; text-align:center; position:relative; transition:0.3s; box-shadow:0 0 10px #000; }
-.card:hover { box-shadow:0 0 25px #22c55e; }
-.card h3 { margin-bottom:12px; font-family: 'Orbitron', sans-serif; font-size:18px; }
+/* ===== Game Sections ===== */
+.game-section { display:none; padding:40px 32px; text-align:center; }
+.backBtn { background:#f59e0b; color:#022c22; padding:10px 20px; margin-bottom:20px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; text-shadow:0 0 4px #fff; }
+.backBtn:hover { box-shadow:0 0 12px #fbbf24; }
 
 /* ===== Case Opening ===== */
 #caseBox { margin:20px auto; width:320px; height:80px; background:#1f2933; border-radius:10px; display:flex; overflow:hidden; position:relative; border:2px solid #22c55e;}
@@ -57,6 +54,7 @@ nav a:hover { color:#22c55e; text-shadow:0 0 8px #22c55e; }
 
 /* ===== Case Battle ===== */
 #battleBox { margin:20px auto; width:100%; max-width:400px; background:#1f2933; border-radius:10px; border:2px solid #22c55e; padding:10px; text-align:center; font-weight:bold; text-shadow:0 0 6px #22c55e; }
+
 </style>
 </head>
 <body>
@@ -64,61 +62,82 @@ nav a:hover { color:#22c55e; text-shadow:0 0 8px #22c55e; }
 <header>
 <div class="logo">CSGamble</div>
 <nav>
-<a href="#cases">Case Opening</a>
-<a href="#battle">Case Battle</a>
-<a href="#tower">Tower</a>
-<a href="#mines">Minefield</a>
-<a href="#roulette">Roulette</a>
-<a href="#login">Steam Login</a>
+<a href="#" onclick="showSection('hero')">Home</a>
+<a href="#" onclick="showSection('caseSection')">Case Opening</a>
+<a href="#" onclick="showSection('battleSection')">Case Battle</a>
+<a href="#" onclick="showSection('towerSection')">Tower</a>
+<a href="#" onclick="showSection('mineSection')">Minefield</a>
+<a href="#" onclick="showSection('rouletteSection')">Roulette</a>
 </nav>
 </header>
 
-<section class="hero">
-<h1>CS2 Skins Casino Demo</h1>
-<p>Virtuali CS2 lošimo platforma – demo su vizualiniu kazino stiliumi</p>
+<section class="hero" id="hero">
+<h1>CS2 Skins Casino SPA Demo</h1>
+<p>Pasirinkite žaidimą iš meniu arba mygtukų žemiau</p>
 <div class="buttons">
-<button id="btnCase">Open Case</button>
-<button id="btnRoulette">Spin Roulette</button>
-<button id="btnTower">Tower Up</button>
-<button id="btnMinefield">Minefield</button>
-<button id="btnBattle">Case Battle</button>
+<button onclick="showSection('caseSection')">📦 Case Opening</button>
+<button onclick="showSection('battleSection')">⚔️ Case Battle</button>
+<button onclick="showSection('towerSection')">🗼 Tower</button>
+<button onclick="showSection('mineSection')">💣 Minefield</button>
+<button onclick="showSection('rouletteSection')">🎡 Roulette</button>
 </div>
 </section>
 
-<section class="games">
-<div class="card" id="cases">
-<h3>📦 Case Opening</h3>
+<!-- ===== Case Opening ===== -->
+<section class="game-section" id="caseSection">
+<button class="backBtn" onclick="showSection('hero')">⬅ Back to Menu</button>
+<h2>📦 Case Opening</h2>
 <div id="caseBox"><div class="caseStrip" id="caseStrip"></div><div id="highlight"></div></div>
 <div id="resultText"></div>
-</div>
-
-<div class="card" id="battle">
-<h3>⚔️ Case Battle</h3>
-<div id="battleBox">Press "Case Battle" to fight!</div>
-</div>
-
-<div class="card" id="tower">
-<h3>🗼 Tower</h3>
-<div id="towerBar"><div id="towerProgress"></div></div>
-</div>
-
-<div class="card" id="mines">
-<h3>💣 Minefield</h3>
-<div id="minefield"></div>
-<div id="mineResult" style="text-align:center; margin-top:10px; font-weight:bold;"></div>
-</div>
-
-<div class="card" id="roulette">
-<h3>🎡 Roulette</h3>
-<div id="rouletteWheel"></div>
-<div id="rouletteResult"></div>
-</div>
+<button class="buttons" onclick="startCase()">Open Case</button>
 </section>
 
-<footer style="text-align:center; padding:20px; color:#6b7280; font-size:13px; border-top:1px solid #1f2933;">© 2026 CSGamble – Virtual Casino Demo</footer>
+<!-- ===== Case Battle ===== -->
+<section class="game-section" id="battleSection">
+<button class="backBtn" onclick="showSection('hero')">⬅ Back to Menu</button>
+<h2>⚔️ Case Battle</h2>
+<div id="battleBox">Press "Start Battle" to fight!</div>
+<button class="buttons" onclick="battleStart()">Start Battle</button>
+</section>
+
+<!-- ===== Tower ===== -->
+<section class="game-section" id="towerSection">
+<button class="backBtn" onclick="showSection('hero')">⬅ Back to Menu</button>
+<h2>🗼 Tower</h2>
+<div id="towerBar"><div id="towerProgress"></div></div>
+<button class="buttons" onclick="towerUp()">Tower Up</button>
+</section>
+
+<!-- ===== Minefield ===== -->
+<section class="game-section" id="mineSection">
+<button class="backBtn" onclick="showSection('hero')">⬅ Back to Menu</button>
+<h2>💣 Minefield</h2>
+<div id="minefield"></div>
+<div id="mineResult" style="text-align:center; margin-top:10px; font-weight:bold;"></div>
+<button class="buttons" onclick="startMinefield()">Start Minefield</button>
+</section>
+
+<!-- ===== Roulette ===== -->
+<section class="game-section" id="rouletteSection">
+<button class="backBtn" onclick="showSection('hero')">⬅ Back to Menu</button>
+<h2>🎡 Roulette</h2>
+<div id="rouletteWheel"></div>
+<div id="rouletteResult"></div>
+<button class="buttons" onclick="spinRoulette()">Spin Roulette</button>
+</section>
+
+<footer style="text-align:center; padding:20px; color:#6b7280; font-size:13px; border-top:1px solid #1f2933;">© 2026 CSGamble – Virtual Casino SPA Demo</footer>
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
+
+// ===== SPA Section Control =====
+function showSection(id){
+document.querySelectorAll('.hero, .game-section').forEach(s=>s.style.display='none');
+document.getElementById(id).style.display='block';
+}
+window.showSection = showSection;
+showSection('hero'); // start with hero
 
 // ===== CASE OPENING =====
 const caseSkins = [
@@ -128,8 +147,8 @@ const caseSkins = [
 { name:"★ Karambit | Doppler", rarity:"legendary" }
 ];
 function startCase(){
-const strip = document.getElementById("caseStrip");
-const resultDiv = document.getElementById("resultText");
+const strip=document.getElementById("caseStrip");
+const resultDiv=document.getElementById("resultText");
 resultDiv.innerText="";
 strip.innerHTML="";
 const totalItems=30;
@@ -183,18 +202,15 @@ const field=document.getElementById("minefield");
 const result=document.getElementById("mineResult");
 field.innerHTML="";
 result.innerText="";
-const bombs = [];
-while(bombs.length<5){
-const b=Math.floor(Math.random()*25);
-if(!bombs.includes(b)) bombs.push(b);
-}
+const bombs=[];
+while(bombs.length<5){const b=Math.floor(Math.random()*25); if(!bombs.includes(b)) bombs.push(b);}
 for(let i=0;i<25;i++){
 const cell=document.createElement("div");
 cell.className="mineCell";
 if(bombs.includes(i)) cell.dataset.bomb="true";
 cell.addEventListener("click",()=>{
-if(cell.dataset.bomb){cell.innerText="💣"; result.innerText="You hit a bomb!"; disableMinefield(); }
-else{cell.style.background="#22c55e"; result.innerText="Safe!"}
+if(cell.dataset.bomb){cell.innerText="💣"; result.innerText="You hit a bomb!"; disableMinefield();}
+else{cell.style.background="#22c55e"; result.innerText="Safe!";}
 });
 field.appendChild(cell);
 }
@@ -209,13 +225,6 @@ const opponent=Math.floor(Math.random()*100)+1;
 let winner=player>opponent?"You won!":"Opponent won!";
 box.innerText=`Player: ${player} vs Opponent: ${opponent} → ${winner}`;
 }
-
-// ===== BUTTON EVENTS =====
-document.getElementById("btnCase").addEventListener("click", startCase);
-document.getElementById("btnRoulette").addEventListener("click", spinRoulette);
-document.getElementById("btnTower").addEventListener("click", towerUp);
-document.getElementById("btnMinefield").addEventListener("click", startMinefield);
-document.getElementById("btnBattle").addEventListener("click", battleStart);
 
 });
 </script>

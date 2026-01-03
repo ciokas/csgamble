@@ -1,163 +1,153 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<title>CSGamble – CS2 Casino Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Roboto+Mono&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Roboto Mono',monospace;background:#0b0f19;color:#e5e7eb}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 30px;background:#111827;border-bottom:2px solid #22c55e}
+.logo{font-family:'Orbitron';font-size:26px;color:#22c55e;text-shadow:0 0 12px #22c55e}
+nav a{margin-left:18px;color:#e5e7eb;text-decoration:none;font-weight:bold}
+nav a:hover{color:#22c55e}
+.balance{color:#fbbf24;font-weight:bold}
+
+section{display:none;padding:40px;text-align:center}
+.hero{display:block}
+
+button{background:linear-gradient(90deg,#22c55e,#10b981);border:none;border-radius:10px;padding:12px 24px;font-weight:bold;cursor:pointer;margin:6px}
+button:hover{box-shadow:0 0 15px #22c55e}
+
+.caseCards{display:flex;justify-content:center;flex-wrap:wrap;gap:20px}
+.caseCard{width:160px;background:#111827;border:2px solid #22c55e;border-radius:12px;padding:12px;cursor:pointer}
+.caseCard img{width:100%;border-radius:8px}
+.caseCard:hover{transform:scale(1.05);box-shadow:0 0 12px #22c55e}
+
+#caseOpenBox{margin:20px auto;width:360px;height:100px;background:#1f2933;border-radius:12px;overflow:hidden;position:relative;border:2px solid #22c55e}
+.caseStrip{display:flex}
+.caseItem{flex:0 0 100px;padding:6px;font-size:11px}
+.common{color:#9ca3af}
+.rare{color:#3b82f6}
+.epic{color:#a855f7}
+.legendary{color:#f59e0b;font-weight:bold}
+#highlight{position:absolute;left:50%;top:0;width:100px;height:100%;border-left:2px solid #22c55e;border-right:2px solid #22c55e;transform:translateX(-50%)}
+
+.history{margin-top:20px;font-size:13px;color:#9ca3af}
+.tile{display:inline-block;width:80px;height:80px;background:#111827;margin:6px;border-radius:10px;line-height:80px;font-weight:bold;cursor:pointer}
+.tile.safe{background:#22c55e}
+.tile.bomb{background:#dc2626}
+
+footer{text-align:center;padding:20px;color:#6b7280}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">CSGamble</div>
+<nav>
+<a onclick="show('hero')">Home</a>
+<a onclick="show('case')">Cases</a>
+<a onclick="show('roulette')">Roulette</a>
+<a onclick="show('tower')">Tower</a>
+<a onclick="show('mine')">Minefield</a>
+<span class="balance">💰 <span id="balance">1000</span></span>
+</nav>
+</header>
+
+<section id="hero" class="hero">
+<h1>CS2 Skins Casino</h1>
+<p>Frontend demo – Case / Roulette / Tower / Mine</p>
+</section>
+
+<section id="case">
+<h2>📦 Case Opening</h2>
+<div class="caseCards" id="caseCards"></div>
+<div id="caseOpenBox">
+<div class="caseStrip" id="strip"></div>
+<div id="highlight"></div>
+</div>
+<div id="result"></div>
+<button onclick="openCase()">Open Case (50)</button>
+<div class="history" id="history"></div>
+</section>
+
+<section id="roulette">
+<h2>🎯 Roulette</h2>
+<button onclick="spin()">Spin (50)</button>
+<div id="rouletteResult"></div>
+</section>
+
+<section id="tower">
+<h2>🧗 Tower</h2>
+<p>Click tiles – avoid red</p>
+<div>
+<div class="tile" onclick="tower(this)"></div>
+<div class="tile" onclick="tower(this)"></div>
+<div class="tile" onclick="tower(this)"></div>
+</div>
+</section>
+
+<section id="mine">
+<h2>💣 Minefield</h2>
+<div>
+<div class="tile" onclick="mine(this)"></div>
+<div class="tile" onclick="mine(this)"></div>
+<div class="tile" onclick="mine(this)"></div>
+</div>
+</section>
+
+<footer>© 2026 CSGamble Demo</footer>
+
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-
-/* =========================
-   SPA SECTION CONTROL
-========================= */
-function showSection(id){
-  document.querySelectorAll('.hero, .game-section')
-    .forEach(s => s.style.display = 'none');
-  document.getElementById(id).style.display = 'block';
-}
-window.showSection = showSection;
-showSection('hero');
-
-/* =========================
-   CASE DATA
-========================= */
-const cases = [
-  {
-    name: "Red Case",
-    price: 0.50,
-    skins: [
-      {
-        name: "AK-47 | Redline",
-        rarity: "common",
-        img: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_redline_light_large.6e0c0f5b1c.png",
-        value: 25
-      },
-      {
-        name: "AWP | Asiimov",
-        rarity: "rare",
-        img: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_awp_cu_asiimov_light_large.5f2a6f52ef.png",
-        value: 60
-      },
-      {
-        name: "★ Karambit | Doppler",
-        rarity: "legendary",
-        img: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_karambit_cu_doppler_light_large.0c1e21f6d3.png",
-        value: 950
-      }
-    ]
-  },
-  {
-    name: "Blue Case",
-    price: 1.50,
-    skins: [
-      {
-        name: "Desert Eagle | Blaze",
-        rarity: "epic",
-        img: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_deagle_cu_blaze_light_large.1f2e6f2c.png",
-        value: 150
-      },
-      {
-        name: "M4A4 | Howl",
-        rarity: "legendary",
-        img: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_m4a1_silencer_cu_howl_light_large.5d8d4b21.png",
-        value: 800
-      }
-    ]
-  }
+let balance=1000;
+const skins=[
+{name:"AK-47 Redline",r:"common",v:25},
+{name:"AWP Asiimov",r:"rare",v:60},
+{name:"Karambit Doppler",r:"legendary",v:950}
 ];
 
-/* =========================
-   RENDER CASE CARDS
-========================= */
-const caseCardsDiv = document.getElementById("caseCards");
-caseCardsDiv.innerHTML = "";
-
-cases.forEach((c, i) => {
-  const div = document.createElement("div");
-  div.className = "caseCard";
-  div.innerHTML = `
-    <img src="${c.skins[0].img}" alt="${c.name}">
-    <h4>${c.name}</h4>
-    <p>€${c.price}</p>
-  `;
-  div.onclick = () => selectCase(i);
-  caseCardsDiv.appendChild(div);
-});
-
-/* =========================
-   CASE SELECTION
-========================= */
-let selectedCase = null;
-
-function selectCase(index){
-  selectedCase = cases[index];
-
-  document.getElementById("caseOpenBox").style.display = "flex";
-  document.getElementById("openCaseBtn").style.display = "inline-block";
-  document.getElementById("caseStrip").style.transform = "translateX(0)";
-  document.getElementById("caseStrip").innerHTML = "";
-  document.getElementById("resultText").innerText = "";
-  document.getElementById("resultImg").style.display = "none";
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
 }
 
-/* =========================
-   CASE OPENING LOGIC
-========================= */
-window.startCaseOpen = function(){
-  if (!selectedCase) return;
+function updateBalance(v){
+balance+=v;
+document.getElementById("balance").innerText=balance;
+}
 
-  const strip = document.getElementById("caseStrip");
-  const resultText = document.getElementById("resultText");
-  const resultImg = document.getElementById("resultImg");
+function openCase(){
+if(balance<50)return alert("No balance");
+updateBalance(-50);
+const win=skins[Math.floor(Math.random()*skins.length)];
+document.getElementById("result").innerHTML=`🎉 ${win.name} (€${win.v})`;
+updateBalance(win.v);
+document.getElementById("history").innerHTML+=`<div>${win.name}</div>`;
+}
 
-  strip.innerHTML = "";
-  strip.style.transition = "none";
-  strip.style.transform = "translateX(0)";
+function spin(){
+if(balance<50)return;
+updateBalance(-50);
+const win=Math.random()<0.45?0:100;
+updateBalance(win);
+document.getElementById("rouletteResult").innerText=win?"WIN +100":"LOSE";
+}
 
-  const totalItems = 30;
-  const centerIndex = Math.floor(totalItems / 2);
+function tower(el){
+if(Math.random()<0.7){el.classList.add("safe");updateBalance(50)}
+else{el.classList.add("bomb");}
+}
 
-  // pasirinkti laimimą skin iš tikrų case skin
-  const winSkin =
-    selectedCase.skins[Math.floor(Math.random() * selectedCase.skins.length)];
-
-  // generuojam strip
-  let generatedSkins = [];
-
-  for (let i = 0; i < totalItems; i++) {
-    let skin;
-
-    if (i === centerIndex) {
-      skin = winSkin;
-    } else {
-      skin = selectedCase.skins[
-        Math.floor(Math.random() * selectedCase.skins.length)
-      ];
-    }
-
-    generatedSkins.push(skin);
-
-    const div = document.createElement("div");
-    div.className = `caseItem ${skin.rarity}`;
-    div.innerHTML = `
-      <img src="${skin.img}" style="width:60px;height:60px;"><br>
-      ${skin.name}
-    `;
-    strip.appendChild(div);
-  }
-
-  // pradedam animaciją
-  requestAnimationFrame(() => {
-    strip.style.transition = "transform 3.2s cubic-bezier(0.15, 0.8, 0.2, 1)";
-    const offset = -(centerIndex * 100 - 180);
-    strip.style.transform = `translateX(${offset}px)`;
-  });
-
-  // rezultatas
-  setTimeout(() => {
-    resultText.innerHTML = `
-      🎉 You won: <span style="color:#22c55e">${winSkin.name}</span>
-      (€${winSkin.value})
-    `;
-    resultImg.src = winSkin.img;
-    resultImg.style.display = "inline-block";
-  }, 3300);
-};
-
-});
+function mine(el){
+if(Math.random()<0.8){el.classList.add("safe");updateBalance(30)}
+else{el.classList.add("bomb");}
+}
 </script>
 
+</body>
+</html>

@@ -1,10 +1,10 @@
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
 /* =========================
    SPA NAVIGACIJA
 ========================= */
-function showSection(id){
+function showSection(id) {
   document.querySelectorAll('.hero, .game-section')
     .forEach(s => s.style.display = 'none');
   document.getElementById(id).style.display = 'block';
@@ -13,7 +13,7 @@ window.showSection = showSection;
 showSection('hero');
 
 /* =========================
-   CASE DUOMENYS (SU NUOTRAUKOM)
+   CASE DUOMENYS
 ========================= */
 const cases = [
   {
@@ -68,7 +68,7 @@ const cases = [
 const caseCardsDiv = document.getElementById("caseCards");
 caseCardsDiv.innerHTML = "";
 
-cases.forEach((c, i) => {
+cases.forEach((c, index) => {
   const div = document.createElement("div");
   div.className = "caseCard";
   div.innerHTML = `
@@ -76,7 +76,7 @@ cases.forEach((c, i) => {
     <h4>${c.name}</h4>
     <p>€${c.price}</p>
   `;
-  div.onclick = () => selectCase(i);
+  div.onclick = () => selectCase(index);
   caseCardsDiv.appendChild(div);
 });
 
@@ -85,7 +85,7 @@ cases.forEach((c, i) => {
 ========================= */
 let selectedCase = null;
 
-function selectCase(index){
+function selectCase(index) {
   selectedCase = cases[index];
 
   document.getElementById("caseOpenBox").style.display = "flex";
@@ -99,7 +99,7 @@ function selectCase(index){
 /* =========================
    CASE OPENING
 ========================= */
-window.startCaseOpen = function(){
+window.startCaseOpen = function () {
   if (!selectedCase) return;
 
   const strip = document.getElementById("caseStrip");
@@ -117,9 +117,10 @@ window.startCaseOpen = function(){
     selectedCase.skins[Math.floor(Math.random() * selectedCase.skins.length)];
 
   for (let i = 0; i < totalItems; i++) {
-    const skin = (i === centerIndex)
-      ? winSkin
-      : selectedCase.skins[Math.floor(Math.random() * selectedCase.skins.length)];
+    const skin =
+      i === centerIndex
+        ? winSkin
+        : selectedCase.skins[Math.floor(Math.random() * selectedCase.skins.length)];
 
     const div = document.createElement("div");
     div.className = `caseItem ${skin.rarity}`;

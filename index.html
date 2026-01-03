@@ -3,52 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSGamble – CS2 Demo Platform</title>
+<title>CSGamble – CS2 Casino Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
 <style>
+/* ===== Global ===== */
 * { box-sizing:border-box; margin:0; padding:0; }
-body { font-family: Arial, Helvetica, sans-serif; background:#0b0f19; color:#e5e7eb; }
-header { background:#111827; padding:16px 32px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1f2933; }
-.logo { font-size:22px; font-weight:bold; color:#22c55e; }
-nav a { margin-left:16px; color:#e5e7eb; text-decoration:none; font-size:14px; }
-nav a:hover { color:#22c55e; }
-.hero { padding:60px 32px; text-align:center; }
-.hero h1 { font-size:42px; margin-bottom:16px; }
-.hero p { color:#9ca3af; margin-bottom:32px; }
-.buttons button { background:#22c55e; color:#022c22; border:none; padding:14px 22px; margin:6px; border-radius:8px; cursor:pointer; font-weight:bold; }
-.buttons button:hover { opacity:0.9; }
-.games { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; padding:32px; }
-.card { background:#111827; border:1px solid #1f2933; border-radius:14px; padding:20px; text-align:center; }
-.card h3 { margin-bottom:8px; }
-.card p { color:#9ca3af; font-size:14px; }
-footer { text-align:center; padding:24px; color:#6b7280; font-size:13px; border-top:1px solid #1f2933; }
+body { font-family: 'Roboto Mono', monospace; background: radial-gradient(circle at top, #0a0d1a, #0b0f19); color:#e5e7eb; overflow-x:hidden; }
+header { display:flex; justify-content:space-between; align-items:center; padding:16px 32px; background:#111827; border-bottom:2px solid #22c55e; }
+.logo { font-family: 'Orbitron', sans-serif; font-size:28px; font-weight:700; color:#22c55e; text-shadow: 0 0 10px #22c55e; }
+nav a { margin-left:20px; color:#e5e7eb; text-decoration:none; font-weight:700; font-size:14px; transition:0.3s; }
+nav a:hover { color:#22c55e; text-shadow:0 0 8px #22c55e; }
 
-/* Case Opening */
+/* ===== Hero ===== */
+.hero { text-align:center; padding:60px 32px; }
+.hero h1 { font-family: 'Orbitron', sans-serif; font-size:42px; margin-bottom:16px; color:#22c55e; text-shadow:0 0 15px #22c55e; }
+.hero p { color:#9ca3af; margin-bottom:32px; }
+
+/* ===== Buttons ===== */
+.buttons { margin-bottom:40px; }
+.buttons button { background: linear-gradient(90deg,#22c55e,#10b981); color:#022c22; font-weight:bold; padding:14px 26px; margin:6px; border:none; border-radius:10px; cursor:pointer; font-size:14px; text-shadow:0 0 4px #fff; transition:0.3s; }
+.buttons button:hover { opacity:0.9; box-shadow:0 0 15px #22c55e; }
+
+/* ===== Games ===== */
+.games { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; padding:0 32px 60px 32px; }
+.card { background:#111827; border:2px solid #22c55e; border-radius:14px; padding:20px; text-align:center; position:relative; transition:0.3s; box-shadow:0 0 10px #000; }
+.card:hover { box-shadow:0 0 25px #22c55e; }
+.card h3 { margin-bottom:12px; font-family: 'Orbitron', sans-serif; font-size:18px; }
+
+/* ===== Case Opening ===== */
 #caseBox { margin:20px auto; width:320px; height:80px; background:#1f2933; border-radius:10px; display:flex; overflow:hidden; position:relative; border:2px solid #22c55e;}
 .caseStrip { display:flex; transition: transform 3s cubic-bezier(0.25,0.1,0,1); }
-.caseItem { flex:0 0 80px; text-align:center; padding:10px; font-weight:bold; border-right:1px solid #333; color:#fff; font-size:14px; }
+.caseItem { flex:0 0 80px; text-align:center; padding:10px; font-weight:bold; border-right:1px solid #333; color:#fff; font-size:14px; text-shadow:0 0 3px #000; }
 .caseItem.common { color:#9ca3af; }
 .caseItem.rare { color:#3b82f6; }
 .caseItem.epic { color:#a855f7; }
-.caseItem.legendary { color:#f59e0b; font-weight:bold; font-size:16px; }
+.caseItem.legendary { color:#f59e0b; font-weight:bold; font-size:16px; text-shadow:0 0 8px #fbbf24; }
 #highlight { position:absolute; left:50%; top:0; width:80px; height:100%; border-left:2px solid #22c55e; border-right:2px solid #22c55e; transform:translateX(-50%); pointer-events:none; }
-#resultText { text-align:center; margin-top:10px; font-weight:bold; font-size:16px; }
+#resultText { text-align:center; margin-top:10px; font-weight:bold; font-size:16px; text-shadow:0 0 6px #22c55e; }
 
-/* Roulette */
-#rouletteWheel { margin:20px auto; width:250px; height:250px; border:10px solid #22c55e; border-radius:50%; position:relative; }
+/* ===== Roulette ===== */
+#rouletteWheel { margin:20px auto; width:250px; height:250px; border:10px solid #22c55e; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 0 15px #22c55e inset;}
 #ball { width:20px; height:20px; background:#f59e0b; border-radius:50%; position:absolute; top:0; left:115px; transition: transform 2s cubic-bezier(0.25,1,0.5,1);}
-#rouletteResult { text-align:center; margin-top:20px; font-weight:bold; }
+#rouletteResult { text-align:center; margin-top:20px; font-weight:bold; text-shadow:0 0 6px #22c55e; }
 
-/* Tower */
+/* ===== Tower ===== */
 #towerBar { margin:20px auto; width:80%; height:20px; background:#1f2933; border-radius:10px; border:2px solid #22c55e; overflow:hidden; }
-#towerProgress { height:100%; width:0; background:#22c55e; transition: width 0.5s; }
+#towerProgress { height:100%; width:0; background:linear-gradient(90deg,#22c55e,#10b981); transition: width 0.5s; }
 
-/* Minefield */
+/* ===== Minefield ===== */
 #minefield { margin:20px auto; display:grid; grid-template-columns:repeat(5,60px); gap:5px; width:max-content; }
-.mineCell { width:60px; height:60px; background:#1f2933; border:2px solid #22c55e; cursor:pointer; display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; font-size:18px; }
+.mineCell { width:60px; height:60px; background:#1f2933; border:2px solid #22c55e; cursor:pointer; display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; font-size:18px; transition:0.3s; }
 .mineCell.bomb { color:red; }
 
-/* Case Battle */
-#battleBox { margin:20px auto; width:100%; max-width:400px; background:#1f2933; border-radius:10px; border:2px solid #22c55e; padding:10px; text-align:center; font-weight:bold; }
+/* ===== Case Battle ===== */
+#battleBox { margin:20px auto; width:100%; max-width:400px; background:#1f2933; border-radius:10px; border:2px solid #22c55e; padding:10px; text-align:center; font-weight:bold; text-shadow:0 0 6px #22c55e; }
 </style>
 </head>
 <body>
@@ -66,8 +74,8 @@ footer { text-align:center; padding:24px; color:#6b7280; font-size:13px; border-
 </header>
 
 <section class="hero">
-<h1>CS2 Skins. Rizika. Laimėjimai.</h1>
-<p>Virtuali CS2 lošimo platforma – demo visiems žaidimams</p>
+<h1>CS2 Skins Casino Demo</h1>
+<p>Virtuali CS2 lošimo platforma – demo su vizualiniu kazino stiliumi</p>
 <div class="buttons">
 <button id="btnCase">Open Case</button>
 <button id="btnRoulette">Spin Roulette</button>
@@ -107,12 +115,12 @@ footer { text-align:center; padding:24px; color:#6b7280; font-size:13px; border-
 </div>
 </section>
 
-<footer>© 2026 CSGamble – Virtual Demo</footer>
+<footer style="text-align:center; padding:20px; color:#6b7280; font-size:13px; border-top:1px solid #1f2933;">© 2026 CSGamble – Virtual Casino Demo</footer>
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-// ==================== CASE OPENING ====================
+// ===== CASE OPENING =====
 const caseSkins = [
 { name:"AK-47 | Redline", rarity:"common" },
 { name:"AWP | Asiimov", rarity:"rare" },
@@ -142,7 +150,7 @@ resultDiv.innerText="You won: "+winSkin;
 },3100);
 }
 
-// ==================== ROULETTE ====================
+// ===== ROULETTE =====
 function spinRoulette(){
 const wheel=document.getElementById("rouletteWheel");
 const resultDiv=document.getElementById("rouletteResult");
@@ -160,7 +168,7 @@ ball.style.transform="rotate(720deg)";
 setTimeout(()=>{resultDiv.innerText="Result: "+result;},2000);
 }
 
-// ==================== TOWER ====================
+// ===== TOWER =====
 let towerLevel=0;
 function towerUp(){
 const progress=document.getElementById("towerProgress");
@@ -169,7 +177,7 @@ progress.style.width=(towerLevel*10)+"%";
 if(towerLevel>=10){alert("Tower max level reached!"); towerLevel=0; progress.style.width="0";}
 }
 
-// ==================== MINEFIELD ====================
+// ===== MINEFIELD =====
 function startMinefield(){
 const field=document.getElementById("minefield");
 const result=document.getElementById("mineResult");
@@ -191,11 +199,9 @@ else{cell.style.background="#22c55e"; result.innerText="Safe!"}
 field.appendChild(cell);
 }
 }
-function disableMinefield(){
-document.querySelectorAll("#minefield .mineCell").forEach(c=>c.style.pointerEvents="none");
-}
+function disableMinefield(){ document.querySelectorAll("#minefield .mineCell").forEach(c=>c.style.pointerEvents="none"); }
 
-// ==================== CASE BATTLE ====================
+// ===== CASE BATTLE =====
 function battleStart(){
 const box=document.getElementById("battleBox");
 const player=Math.floor(Math.random()*100)+1;
@@ -204,7 +210,7 @@ let winner=player>opponent?"You won!":"Opponent won!";
 box.innerText=`Player: ${player} vs Opponent: ${opponent} → ${winner}`;
 }
 
-// ====== PRIDĖTI MYGTUKŲ EVENT ======
+// ===== BUTTON EVENTS =====
 document.getElementById("btnCase").addEventListener("click", startCase);
 document.getElementById("btnRoulette").addEventListener("click", spinRoulette);
 document.getElementById("btnTower").addEventListener("click", towerUp);

@@ -6,6 +6,7 @@
   <title>CSGamble – CS2 Case Opening & Gambling</title>
   <meta name="description" content="CSGamble – virtuali CS2 case opening, case battle, tower, minefield ir roulette platforma." />
   <style>
+    /* ==================== CSS ==================== */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: Arial, Helvetica, sans-serif; background: #0b0f19; color: #e5e7eb; }
     header { background: #111827; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2933; }
@@ -42,7 +43,9 @@
     <p>Virtuali CS2 lošimo platforma: Case Opening, Case Battle, Tower, Minefield ir Roulette</p>
     <div class="buttons">
       <button onclick="openCase()">Open Cases</button>
-      <button>Play Roulette</button>
+      <button onclick="playRoulette('Red')">Roulette Red</button>
+      <button onclick="playRoulette('Black')">Roulette Black</button>
+      <button onclick="playRoulette('Green')">Roulette Green</button>
     </div>
   </section>
 
@@ -73,7 +76,7 @@
     © 2026 CSGamble. Virtualus demonstracinis projektas.
   </footer>
 
-  <!-- === CASE OPENING SCRIPT === -->
+  <!-- ==================== CASE OPENING SCRIPT ==================== -->
   <script>
     const skins = [
       { name: "AK-47 | Redline", value: 25 },
@@ -93,6 +96,19 @@
       alert("You won: " + skin.name + " ($" + skin.value + ")");
     }
   </script>
+
+  <!-- ==================== ROULETTE SCRIPT ==================== -->
+  <script>
+    function playRoulette(color) {
+      const roll = Math.random();
+      let result;
+      if (roll < 0.48) result = "Red";
+      else if (roll < 0.96) result = "Black";
+      else result = "Green";
+
+      if(result === color) alert("You won! The ball landed on " + result);
+      else alert("You lost! The ball landed on " + result);
+    }
+  </script>
 </body>
 </html>
-

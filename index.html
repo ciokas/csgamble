@@ -1,114 +1,208 @@
 <!DOCTYPE html>
 <html lang="lt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CSGamble – CS2 Case Opening & Gambling</title>
-  <meta name="description" content="CSGamble – virtuali CS2 case opening, case battle, tower, minefield ir roulette platforma." />
-  <style>
-    /* ==================== CSS ==================== */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, Helvetica, sans-serif; background: #0b0f19; color: #e5e7eb; }
-    header { background: #111827; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2933; }
-    .logo { font-size: 22px; font-weight: bold; color: #22c55e; }
-    nav a { margin-left: 16px; color: #e5e7eb; text-decoration: none; font-size: 14px; }
-    nav a:hover { color: #22c55e; }
-    .hero { padding: 80px 32px; text-align: center; }
-    .hero h1 { font-size: 42px; margin-bottom: 16px; }
-    .hero p { color: #9ca3af; margin-bottom: 32px; }
-    .buttons button { background: #22c55e; color: #022c22; border: none; padding: 14px 22px; margin: 6px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-    .buttons button:hover { opacity: 0.9; }
-    .games { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; padding: 32px; }
-    .card { background: #111827; border: 1px solid #1f2933; border-radius: 14px; padding: 20px; text-align: center; }
-    .card h3 { margin-bottom: 8px; }
-    .card p { color: #9ca3af; font-size: 14px; }
-    footer { text-align: center; padding: 24px; color: #6b7280; font-size: 13px; border-top: 1px solid #1f2933; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSGamble – CS2 Demo Platform</title>
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family: Arial, Helvetica, sans-serif; background:#0b0f19; color:#e5e7eb; }
+header { background:#111827; padding:16px 32px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1f2933; }
+.logo { font-size:22px; font-weight:bold; color:#22c55e; }
+nav a { margin-left:16px; color:#e5e7eb; text-decoration:none; font-size:14px; }
+nav a:hover { color:#22c55e; }
+.hero { padding:60px 32px; text-align:center; }
+.hero h1 { font-size:42px; margin-bottom:16px; }
+.hero p { color:#9ca3af; margin-bottom:32px; }
+.buttons button { background:#22c55e; color:#022c22; border:none; padding:14px 22px; margin:6px; border-radius:8px; cursor:pointer; font-weight:bold; }
+.buttons button:hover { opacity:0.9; }
+.games { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; padding:32px; }
+.card { background:#111827; border:1px solid #1f2933; border-radius:14px; padding:20px; text-align:center; }
+.card h3 { margin-bottom:8px; }
+.card p { color:#9ca3af; font-size:14px; }
+footer { text-align:center; padding:24px; color:#6b7280; font-size:13px; border-top:1px solid #1f2933; }
+
+/* ===== CASE OPENING ===== */
+#caseBox { margin:20px auto; width:320px; height:80px; background:#1f2933; border-radius:10px; display:flex; overflow:hidden; position:relative; border:2px solid #22c55e;}
+.caseStrip { display:flex; transition: transform 3s cubic-bezier(0.25,0.1,0,1); }
+.caseItem { flex:0 0 80px; text-align:center; padding:10px; font-weight:bold; border-right:1px solid #333; color:#fff; font-size:14px; }
+.caseItem.common { color:#9ca3af; }
+.caseItem.rare { color:#3b82f6; }
+.caseItem.epic { color:#a855f7; }
+.caseItem.legendary { color:#f59e0b; font-weight:bold; font-size:16px; }
+#highlight { position:absolute; left:50%; top:0; width:80px; height:100%; border-left:2px solid #22c55e; border-right:2px solid #22c55e; transform:translateX(-50%); pointer-events:none; }
+#resultText { text-align:center; margin-top:10px; font-weight:bold; font-size:16px; }
+
+/* ===== ROULETTE ===== */
+#rouletteWheel { margin:20px auto; width:250px; height:250px; border:10px solid #22c55e; border-radius:50%; position:relative; }
+#ball { width:20px; height:20px; background:#f59e0b; border-radius:50%; position:absolute; top:0; left:115px; transition: transform 2s cubic-bezier(0.25,1,0.5,1);}
+#rouletteResult { text-align:center; margin-top:20px; font-weight:bold; }
+
+/* ===== TOWER ===== */
+#towerBar { margin:20px auto; width:80%; height:20px; background:#1f2933; border-radius:10px; border:2px solid #22c55e; overflow:hidden; }
+#towerProgress { height:100%; width:0; background:#22c55e; transition: width 0.5s; }
+
+/* ===== MINEFIELD ===== */
+#minefield { margin:20px auto; display:grid; grid-template-columns:repeat(5,60px); gap:5px; width:max-content; }
+.mineCell { width:60px; height:60px; background:#1f2933; border:2px solid #22c55e; cursor:pointer; display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; font-size:18px; }
+.mineCell.bomb { color:red; }
+
+/* ===== CASE BATTLE ===== */
+#battleBox { margin:20px auto; width:100%; max-width:400px; background:#1f2933; border-radius:10px; border:2px solid #22c55e; padding:10px; text-align:center; font-weight:bold; }
+</style>
 </head>
 <body>
-  <header>
-    <div class="logo">CSGamble</div>
-    <nav>
-      <a href="#cases">Case Opening</a>
-      <a href="#battle">Case Battle</a>
-      <a href="#tower">Tower</a>
-      <a href="#mines">Minefield</a>
-      <a href="#roulette">Roulette</a>
-      <a href="#login">Steam Login</a>
-    </nav>
-  </header>
 
-  <section class="hero">
-    <h1>CS2 Skins. Rizika. Laimėjimai.</h1>
-    <p>Virtuali CS2 lošimo platforma: Case Opening, Case Battle, Tower, Minefield ir Roulette</p>
-    <div class="buttons">
-      <button onclick="openCase()">Open Cases</button>
-      <button onclick="playRoulette('Red')">Roulette Red</button>
-      <button onclick="playRoulette('Black')">Roulette Black</button>
-      <button onclick="playRoulette('Green')">Roulette Green</button>
-    </div>
-  </section>
+<header>
+<div class="logo">CSGamble</div>
+<nav>
+<a href="#cases">Case Opening</a>
+<a href="#battle">Case Battle</a>
+<a href="#tower">Tower</a>
+<a href="#mines">Minefield</a>
+<a href="#roulette">Roulette</a>
+<a href="#login">Steam Login</a>
+</nav>
+</header>
 
-  <section class="games">
-    <div class="card" id="cases">
-      <h3>📦 Case Opening</h3>
-      <p>Atidaryk CS2 dėžes ir laimėk skinus</p>
-    </div>
-    <div class="card" id="battle">
-      <h3>⚔️ Case Battle</h3>
-      <p>Varžykis su kitais žaidėjais</p>
-    </div>
-    <div class="card" id="tower">
-      <h3>🗼 Tower</h3>
-      <p>Kilk aukštyn su didėjančiais koeficientais</p>
-    </div>
-    <div class="card" id="mines">
-      <h3>💣 Minefield</h3>
-      <p>Venk minų ir cashout bet kada</p>
-    </div>
-    <div class="card" id="roulette">
-      <h3>🎡 Roulette</h3>
-      <p>Statyk raudona, juoda arba žalia</p>
-    </div>
-  </section>
+<section class="hero">
+<h1>CS2 Skins. Rizika. Laimėjimai.</h1>
+<p>Virtuali CS2 lošimo platforma – demo visiems žaidimams</p>
+<div class="buttons">
+<button onclick="startCase()">Open Case</button>
+<button onclick="spinRoulette()">Spin Roulette</button>
+<button onclick="towerUp()">Tower Up</button>
+<button onclick="startMinefield()">Minefield</button>
+<button onclick="battleStart()">Case Battle</button>
+</div>
+</section>
 
-  <footer>
-    © 2026 CSGamble. Virtualus demonstracinis projektas.
-  </footer>
+<section class="games">
+<div class="card" id="cases">
+<h3>📦 Case Opening</h3>
+<div id="caseBox"><div class="caseStrip" id="caseStrip"></div><div id="highlight"></div></div>
+<div id="resultText"></div>
+</div>
 
-  <!-- ==================== CASE OPENING SCRIPT ==================== -->
-  <script>
-    const skins = [
-      { name: "AK-47 | Redline", value: 25 },
-      { name: "AWP | Asiimov", value: 60 },
-      { name: "Glock-18 | Fade", value: 120 },
-      { name: "★ Karambit | Doppler", value: 950 }
-    ];
+<div class="card" id="battle">
+<h3>⚔️ Case Battle</h3>
+<div id="battleBox">Press "Case Battle" to fight!</div>
+</div>
 
-    function openCase() {
-      const roll = Math.random();
-      let skin;
-      if (roll < 0.7) skin = skins[0];
-      else if (roll < 0.9) skin = skins[1];
-      else if (roll < 0.98) skin = skins[2];
-      else skin = skins[3];
+<div class="card" id="tower">
+<h3>🗼 Tower</h3>
+<div id="towerBar"><div id="towerProgress"></div></div>
+</div>
 
-      alert("You won: " + skin.name + " ($" + skin.value + ")");
-    }
-  </script>
+<div class="card" id="mines">
+<h3>💣 Minefield</h3>
+<div id="minefield"></div>
+<div id="mineResult" style="text-align:center; margin-top:10px; font-weight:bold;"></div>
+</div>
 
-  <!-- ==================== ROULETTE SCRIPT ==================== -->
-  <script>
-    function playRoulette(color) {
-      const roll = Math.random();
-      let result;
-      if (roll < 0.48) result = "Red";
-      else if (roll < 0.96) result = "Black";
-      else result = "Green";
+<div class="card" id="roulette">
+<h3>🎡 Roulette</h3>
+<div id="rouletteWheel"></div>
+<div id="rouletteResult"></div>
+</div>
+</section>
 
-      if(result === color) alert("You won! The ball landed on " + result);
-      else alert("You lost! The ball landed on " + result);
-    }
-  </script>
+<footer>© 2026 CSGamble – Virtual Demo</footer>
+
+<script>
+// ==================== CASE OPENING ====================
+const caseSkins = [
+{ name:"AK-47 | Redline", rarity:"common" },
+{ name:"AWP | Asiimov", rarity:"rare" },
+{ name:"Glock-18 | Fade", rarity:"epic" },
+{ name:"★ Karambit | Doppler", rarity:"legendary" }
+];
+
+function startCase(){
+const strip = document.getElementById("caseStrip");
+const resultDiv = document.getElementById("resultText");
+resultDiv.innerText="";
+strip.innerHTML="";
+const totalItems=30;
+for(let i=0;i<totalItems;i++){
+const skin=caseSkins[Math.floor(Math.random()*caseSkins.length)];
+const div=document.createElement("div");
+div.className="caseItem "+skin.rarity;
+div.innerText=skin.name;
+strip.appendChild(div);
+}
+const winningIndex=Math.floor(Math.random()*caseSkins.length)+Math.floor(totalItems/2);
+const offset=-(winningIndex*80-160);
+strip.style.transition="transform 3s cubic-bezier(0.25,0.1,0,1)";
+strip.style.transform="translateX("+offset+"px)";
+setTimeout(()=>{
+const winSkin=strip.children[winningIndex].innerText;
+resultDiv.innerText="You won: "+winSkin;
+},3100);
+}
+
+// ==================== ROULETTE ====================
+function spinRoulette(){
+const wheel=document.getElementById("rouletteWheel");
+const resultDiv=document.getElementById("rouletteResult");
+const roll=Math.random();
+let result;
+if(roll<0.48) result="Red";
+else if(roll<0.96) result="Black";
+else result="Green";
+resultDiv.innerText="Spinning...";
+const ball=document.createElement("div");
+ball.id="ball";
+wheel.innerHTML="";
+wheel.appendChild(ball);
+ball.style.transform="rotate(720deg)";
+setTimeout(()=>{resultDiv.innerText="Result: "+result;},2000);
+}
+
+// ==================== TOWER ====================
+let towerLevel=0;
+function towerUp(){
+const progress=document.getElementById("towerProgress");
+towerLevel++;
+progress.style.width=(towerLevel*10)+"%";
+if(towerLevel>=10){alert("Tower max level reached!"); towerLevel=0; progress.style.width="0";}
+}
+
+// ==================== MINEFIELD ====================
+function startMinefield(){
+const field=document.getElementById("minefield");
+const result=document.getElementById("mineResult");
+field.innerHTML="";
+result.innerText="";
+const bombs = [];
+while(bombs.length<5){
+const b=Math.floor(Math.random()*25);
+if(!bombs.includes(b)) bombs.push(b);
+}
+for(let i=0;i<25;i++){
+const cell=document.createElement("div");
+cell.className="mineCell";
+if(bombs.includes(i)) cell.dataset.bomb="true";
+cell.addEventListener("click",()=>{
+if(cell.dataset.bomb){cell.innerText="💣"; result.innerText="You hit a bomb!"; disableMinefield(); }
+else{cell.style.background="#22c55e"; result.innerText="Safe!"}
+});
+field.appendChild(cell);
+}
+}
+function disableMinefield(){
+document.querySelectorAll("#minefield .mineCell").forEach(c=>c.style.pointerEvents="none");
+}
+
+// ==================== CASE BATTLE ====================
+function battleStart(){
+const box=document.getElementById("battleBox");
+const player=Math.floor(Math.random()*100)+1;
+const opponent=Math.floor(Math.random()*100)+1;
+let winner=player>opponent?"You won!":"Opponent won!";
+box.innerText=`Player: ${player} vs Opponent: ${opponent} → ${winner}`;
+}
+</script>
+
 </body>
 </html>

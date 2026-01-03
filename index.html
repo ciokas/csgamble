@@ -22,7 +22,7 @@ nav a:hover { color:#22c55e; }
 .card p { color:#9ca3af; font-size:14px; }
 footer { text-align:center; padding:24px; color:#6b7280; font-size:13px; border-top:1px solid #1f2933; }
 
-/* ===== CASE OPENING ===== */
+/* Case Opening */
 #caseBox { margin:20px auto; width:320px; height:80px; background:#1f2933; border-radius:10px; display:flex; overflow:hidden; position:relative; border:2px solid #22c55e;}
 .caseStrip { display:flex; transition: transform 3s cubic-bezier(0.25,0.1,0,1); }
 .caseItem { flex:0 0 80px; text-align:center; padding:10px; font-weight:bold; border-right:1px solid #333; color:#fff; font-size:14px; }
@@ -33,21 +33,21 @@ footer { text-align:center; padding:24px; color:#6b7280; font-size:13px; border-
 #highlight { position:absolute; left:50%; top:0; width:80px; height:100%; border-left:2px solid #22c55e; border-right:2px solid #22c55e; transform:translateX(-50%); pointer-events:none; }
 #resultText { text-align:center; margin-top:10px; font-weight:bold; font-size:16px; }
 
-/* ===== ROULETTE ===== */
+/* Roulette */
 #rouletteWheel { margin:20px auto; width:250px; height:250px; border:10px solid #22c55e; border-radius:50%; position:relative; }
 #ball { width:20px; height:20px; background:#f59e0b; border-radius:50%; position:absolute; top:0; left:115px; transition: transform 2s cubic-bezier(0.25,1,0.5,1);}
 #rouletteResult { text-align:center; margin-top:20px; font-weight:bold; }
 
-/* ===== TOWER ===== */
+/* Tower */
 #towerBar { margin:20px auto; width:80%; height:20px; background:#1f2933; border-radius:10px; border:2px solid #22c55e; overflow:hidden; }
 #towerProgress { height:100%; width:0; background:#22c55e; transition: width 0.5s; }
 
-/* ===== MINEFIELD ===== */
+/* Minefield */
 #minefield { margin:20px auto; display:grid; grid-template-columns:repeat(5,60px); gap:5px; width:max-content; }
 .mineCell { width:60px; height:60px; background:#1f2933; border:2px solid #22c55e; cursor:pointer; display:flex; justify-content:center; align-items:center; font-weight:bold; color:#fff; font-size:18px; }
 .mineCell.bomb { color:red; }
 
-/* ===== CASE BATTLE ===== */
+/* Case Battle */
 #battleBox { margin:20px auto; width:100%; max-width:400px; background:#1f2933; border-radius:10px; border:2px solid #22c55e; padding:10px; text-align:center; font-weight:bold; }
 </style>
 </head>
@@ -69,11 +69,11 @@ footer { text-align:center; padding:24px; color:#6b7280; font-size:13px; border-
 <h1>CS2 Skins. Rizika. Laimėjimai.</h1>
 <p>Virtuali CS2 lošimo platforma – demo visiems žaidimams</p>
 <div class="buttons">
-<button onclick="startCase()">Open Case</button>
-<button onclick="spinRoulette()">Spin Roulette</button>
-<button onclick="towerUp()">Tower Up</button>
-<button onclick="startMinefield()">Minefield</button>
-<button onclick="battleStart()">Case Battle</button>
+<button id="btnCase">Open Case</button>
+<button id="btnRoulette">Spin Roulette</button>
+<button id="btnTower">Tower Up</button>
+<button id="btnMinefield">Minefield</button>
+<button id="btnBattle">Case Battle</button>
 </div>
 </section>
 
@@ -110,6 +110,8 @@ footer { text-align:center; padding:24px; color:#6b7280; font-size:13px; border-
 <footer>© 2026 CSGamble – Virtual Demo</footer>
 
 <script>
+document.addEventListener("DOMContentLoaded", function(){
+
 // ==================== CASE OPENING ====================
 const caseSkins = [
 { name:"AK-47 | Redline", rarity:"common" },
@@ -117,7 +119,6 @@ const caseSkins = [
 { name:"Glock-18 | Fade", rarity:"epic" },
 { name:"★ Karambit | Doppler", rarity:"legendary" }
 ];
-
 function startCase(){
 const strip = document.getElementById("caseStrip");
 const resultDiv = document.getElementById("resultText");
@@ -202,7 +203,17 @@ const opponent=Math.floor(Math.random()*100)+1;
 let winner=player>opponent?"You won!":"Opponent won!";
 box.innerText=`Player: ${player} vs Opponent: ${opponent} → ${winner}`;
 }
+
+// ====== PRIDĖTI MYGTUKŲ EVENT ======
+document.getElementById("btnCase").addEventListener("click", startCase);
+document.getElementById("btnRoulette").addEventListener("click", spinRoulette);
+document.getElementById("btnTower").addEventListener("click", towerUp);
+document.getElementById("btnMinefield").addEventListener("click", startMinefield);
+document.getElementById("btnBattle").addEventListener("click", battleStart);
+
+});
 </script>
 
 </body>
 </html>
+

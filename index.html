@@ -3,52 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSGamble – CS2 Casino SPA Demo</title>
+<title>CSGamble – CS2 Case Opening</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
 <style>
-/* ===== Global ===== */
 * { box-sizing:border-box; margin:0; padding:0; }
-body { font-family:'Roboto Mono', monospace; background: radial-gradient(circle at top, #0a0d1a, #0b0f19); color:#e5e7eb; overflow-x:hidden; }
+body { font-family:'Roboto Mono', monospace; background:#0b0f19; color:#e5e7eb; }
 header { display:flex; justify-content:space-between; align-items:center; padding:16px 32px; background:#111827; border-bottom:2px solid #22c55e; }
 .logo { font-family:'Orbitron', sans-serif; font-size:28px; font-weight:700; color:#22c55e; text-shadow:0 0 10px #22c55e; }
-nav a { margin-left:20px; color:#e5e7eb; text-decoration:none; font-weight:700; font-size:14px; transition:0.3s; }
-nav a:hover { color:#22c55e; text-shadow:0 0 8px #22c55e; }
+nav a { margin-left:20px; color:#e5e7eb; text-decoration:none; font-weight:700; font-size:14px; }
+nav a:hover { color:#22c55e; }
 
-/* ===== Hero ===== */
 .hero { text-align:center; padding:60px 32px; }
 .hero h1 { font-family:'Orbitron', sans-serif; font-size:42px; margin-bottom:16px; color:#22c55e; text-shadow:0 0 15px #22c55e; }
 .hero p { color:#9ca3af; margin-bottom:32px; }
-.buttons { margin-bottom:40px; }
+
 .buttons button { background: linear-gradient(90deg,#22c55e,#10b981); color:#022c22; font-weight:bold; padding:14px 26px; margin:6px; border:none; border-radius:10px; cursor:pointer; font-size:14px; text-shadow:0 0 4px #fff; transition:0.3s; }
 .buttons button:hover { opacity:0.9; box-shadow:0 0 15px #22c55e; }
 
-/* ===== Game Sections ===== */
 .game-section { display:none; padding:40px 32px; text-align:center; }
 .backBtn { background:#f59e0b; color:#022c22; padding:10px 20px; margin-bottom:20px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; text-shadow:0 0 4px #fff; }
 .backBtn:hover { box-shadow:0 0 12px #fbbf24; }
 
-/* ===== Case Cards ===== */
+/* Case cards */
 .caseCards { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px; }
-.caseCard { width:180px; background:#111827; border:2px solid #22c55e; border-radius:12px; padding:16px; cursor:pointer; transition:0.3s; text-align:center; }
+.caseCard { width:160px; background:#111827; border:2px solid #22c55e; border-radius:12px; padding:12px; cursor:pointer; transition:0.3s; text-align:center; }
 .caseCard:hover { box-shadow:0 0 15px #22c55e; transform:scale(1.05); }
 .caseCard img { width:100%; border-radius:8px; margin-bottom:8px; }
 .caseCard h4 { font-weight:bold; margin-bottom:4px; color:#22c55e; }
 .caseCard p { font-size:14px; color:#9ca3af; }
 
-/* ===== Case Opening Strip ===== */
-#caseOpenBox { margin:20px auto; width:320px; height:80px; background:#1f2933; border-radius:10px; display:flex; overflow:hidden; position:relative; border:2px solid #22c55e; }
+/* Case opening animation */
+#caseOpenBox { margin:20px auto; width:360px; height:100px; background:#1f2933; border-radius:12px; display:flex; overflow:hidden; position:relative; border:2px solid #22c55e; }
 .caseStrip { display:flex; transition: transform 3s cubic-bezier(0.25,0.1,0,1); }
-.caseItem { flex:0 0 80px; text-align:center; padding:10px; font-weight:bold; border-right:1px solid #333; color:#fff; font-size:14px; text-shadow:0 0 3px #000; }
+.caseItem { flex:0 0 100px; text-align:center; padding:5px; font-weight:bold; border-right:1px solid #333; color:#fff; font-size:12px; text-shadow:0 0 3px #000; }
 .caseItem.common { color:#9ca3af; }
 .caseItem.rare { color:#3b82f6; }
 .caseItem.epic { color:#a855f7; }
-.caseItem.legendary { color:#f59e0b; font-weight:bold; font-size:16px; text-shadow:0 0 8px #fbbf24; }
-#highlight { position:absolute; left:50%; top:0; width:80px; height:100%; border-left:2px solid #22c55e; border-right:2px solid #22c55e; transform:translateX(-50%); pointer-events:none; }
+.caseItem.legendary { color:#f59e0b; font-weight:bold; font-size:14px; text-shadow:0 0 6px #fbbf24; }
+#highlight { position:absolute; left:50%; top:0; width:100px; height:100%; border-left:2px solid #22c55e; border-right:2px solid #22c55e; transform:translateX(-50%); pointer-events:none; }
 #resultText { text-align:center; margin-top:10px; font-weight:bold; font-size:16px; text-shadow:0 0 6px #22c55e; }
-#resultImg { margin-top:10px; width:120px; height:120px; object-fit:contain; border:2px solid #22c55e; border-radius:8px; }
-
-/* ===== Other game styles as before ===== */
-/* ... reuse previous Tower, Minefield, Roulette, Battle styles ... */
+#resultImg { margin-top:10px; width:120px; height:120px; object-fit:contain; border:2px solid #22c55e; border-radius:8px; display:none; }
 
 </style>
 </head>
@@ -59,90 +53,73 @@ nav a:hover { color:#22c55e; text-shadow:0 0 8px #22c55e; }
 <nav>
 <a href="#" onclick="showSection('hero')">Home</a>
 <a href="#" onclick="showSection('caseSection')">Case Opening</a>
-<a href="#" onclick="showSection('battleSection')">Case Battle</a>
-<a href="#" onclick="showSection('towerSection')">Tower</a>
-<a href="#" onclick="showSection('mineSection')">Minefield</a>
-<a href="#" onclick="showSection('rouletteSection')">Roulette</a>
 </nav>
 </header>
 
-<!-- ===== Hero ===== -->
 <section class="hero" id="hero">
-<h1>CS2 Skins Casino SPA Demo</h1>
-<p>Pasirinkite žaidimą iš meniu arba mygtukų žemiau</p>
+<h1>CS2 Skins Casino</h1>
+<p>Pasirinkite Case, kad atidaryti su animacija!</p>
 <div class="buttons">
 <button onclick="showSection('caseSection')">📦 Case Opening</button>
-<button onclick="showSection('battleSection')">⚔️ Case Battle</button>
-<button onclick="showSection('towerSection')">🗼 Tower</button>
-<button onclick="showSection('mineSection')">💣 Minefield</button>
-<button onclick="showSection('rouletteSection')">🎡 Roulette</button>
 </div>
 </section>
 
-<!-- ===== Case Opening ===== -->
 <section class="game-section" id="caseSection">
 <button class="backBtn" onclick="showSection('hero')">⬅ Back to Menu</button>
 <h2>📦 Case Opening</h2>
 
-<!-- Case selection cards -->
-<div class="caseCards" id="caseCards">
-<!-- JS will fill case cards here -->
-</div>
+<div class="caseCards" id="caseCards"></div>
 
-<!-- Case opening animation -->
 <div id="caseOpenBox" style="display:none;">
 <div class="caseStrip" id="caseStrip"></div>
 <div id="highlight"></div>
 </div>
+
 <div id="resultText"></div>
-<img id="resultImg" src="" style="display:none;" />
+<img id="resultImg" src="" />
+
 <button class="buttons" id="openCaseBtn" style="display:none;" onclick="startCaseOpen()">Open Case</button>
 </section>
 
-<!-- ===== Other game sections (reuse previous Tower, Roulette, etc.) ===== -->
-<!-- ... Tower, Minefield, Battle, Roulette sections same as previous script ... -->
-
-<footer style="text-align:center; padding:20px; color:#6b7280; font-size:13px; border-top:1px solid #1f2933;">© 2026 CSGamble – Virtual Casino SPA Demo</footer>
+<footer style="text-align:center; padding:20px; color:#6b7280; font-size:13px; border-top:1px solid #1f2933;">© 2026 CSGamble – Demo</footer>
 
 <script>
 document.addEventListener("DOMContentLoaded",function(){
 
-// ===== SPA Section Control =====
+// SPA Section Control
 function showSection(id){
 document.querySelectorAll('.hero, .game-section').forEach(s=>s.style.display='none');
 document.getElementById(id).style.display='block';
 }
-window.showSection = showSection;
-showSection('hero'); // start with hero
+window.showSection=showSection;
+showSection('hero');
 
-// ===== CASE OPENING =====
+// CASES DATA
 const cases=[
-{ name:"Red Case", price:1.5, skins:[
+{ name:"Red Case", price:0.50, skins:[
 { name:"AK-47 | Redline", rarity:"common", img:"https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_redline_light_large.6e0c0f5b1c.png", value:25},
 { name:"AWP | Asiimov", rarity:"rare", img:"https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_awp_cu_asiimov_light_large.5f2a6f52ef.png", value:60},
-{ name:"Glock-18 | Fade", rarity:"epic", img:"https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_glock18_cu_fade_light_large.6a3f6c434.png", value:120},
 { name:"★ Karambit | Doppler", rarity:"legendary", img:"https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_karambit_cu_doppler_light_large.0c1e21f6d3.png", value:950}
 ]},
-{ name:"Blue Case", price:5.0, skins:[
+{ name:"Blue Case", price:1.50, skins:[
 { name:"M4A4 | Howl", rarity:"legendary", img:"https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_m4a1_silencer_cu_howl_light_large.5d8d4b21.png", value:800},
 { name:"Desert Eagle | Blaze", rarity:"epic", img:"https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_deagle_cu_blaze_light_large.1f2e6f2c.png", value:150}
 ]}
 ];
 
-// Render case cards
+// render case cards
 const caseCardsDiv=document.getElementById("caseCards");
-cases.forEach((c,index)=>{
+cases.forEach((c,i)=>{
 const div=document.createElement("div");
 div.className="caseCard";
 div.innerHTML=`<img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_redline_light_large.6e0c0f5b1c.png" alt="${c.name}"><h4>${c.name}</h4><p>€${c.price}</p>`;
-div.addEventListener("click",()=>selectCase(index));
+div.addEventListener("click",()=>selectCase(i));
 caseCardsDiv.appendChild(div);
 });
 
-// Case selection
 let selectedCase=null;
-function selectCase(index){
-selectedCase=cases[index];
+function selectCase(i){
+selectedCase=cases[i];
 document.getElementById("caseOpenBox").style.display="flex";
 document.getElementById("openCaseBtn").style.display="inline-block";
 document.getElementById("caseStrip").innerHTML="";
@@ -150,7 +127,6 @@ document.getElementById("resultText").innerText="";
 document.getElementById("resultImg").style.display="none";
 }
 
-// Start case opening animation
 function startCaseOpen(){
 if(!selectedCase) return;
 const strip=document.getElementById("caseStrip");
@@ -169,7 +145,7 @@ strip.appendChild(div);
 
 // pick winning skin
 const winIndex=Math.floor(Math.random()*selectedCase.skins.length)+Math.floor(30/2);
-const offset=-(winIndex*80-160);
+const offset=-(winIndex*100-180);
 strip.style.transition="transform 3s cubic-bezier(0.25,0.1,0,1)";
 strip.style.transform=`translateX(${offset}px)`;
 
@@ -181,12 +157,8 @@ resultImg.style.display="inline-block";
 },3100);
 }
 
-// ===== Other game functions (Tower, Roulette, Minefield, Battle) same as before =====
-
 });
 </script>
-
 </body>
 </html>
-
 
